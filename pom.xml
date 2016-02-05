@@ -48,7 +48,7 @@
 
     <!-- Packaging -->
     <packaging>jar</packaging>
-    <name>GameOfLife</name>
+    <name>me.thenlgamerzone.gol.GameOfLife</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

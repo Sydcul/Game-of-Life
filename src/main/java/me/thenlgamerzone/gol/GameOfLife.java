@@ -1,3 +1,5 @@
+package me.thenlgamerzone.gol;
+
 /*
  * Copyright (c) 2016 Tim & Lukas
  * See LICENSE for license
