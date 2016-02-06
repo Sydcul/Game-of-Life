@@ -22,6 +22,11 @@ public class CellCanvas extends JPanel {
         this.width = width;
         this.height = height;
     }
+
+    /**
+     * Paint the canvas using double buffer
+     * @param g 'Real' canvas, used for double buffer
+     */
     public void paint(Graphics g) {
         super.paintComponent(g);
 

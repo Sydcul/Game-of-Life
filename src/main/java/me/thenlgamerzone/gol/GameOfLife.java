@@ -17,6 +17,10 @@ public class GameOfLife {
     private CellCanvas cellCanvas;
 
     public static void main(String[] args) {
+        // Temporary settings
+        Settings.WIDTH.setSetting(50);
+        Settings.HEIGTH.setSetting(50);
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GameOfLife();
@@ -30,7 +34,7 @@ public class GameOfLife {
     public GameOfLife() {
         // Create JFrame and JPanel
         mainFrame = new JFrame();
-        cellCanvas = new CellCanvas(50, 50);
+        cellCanvas = new CellCanvas(Settings.WIDTH.getSetting(), Settings.HEIGTH.getSetting());
 
         // Adding listeners for JPanel
         cellCanvas.addMouseListener(new MouseAdapter() {
