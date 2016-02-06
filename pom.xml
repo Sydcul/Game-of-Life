@@ -8,7 +8,7 @@
     <artifactId>GameOfLife</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <url>https://github.com/Sydcul/Game-of-Life</url>
+    <url>https://github.com/TheNLGamerZone/Game-of-Life</url>
     <description>
         Het prachtige Game Of Life spel maar dan in Java
     </description>
@@ -31,19 +31,11 @@
                 <role>Developer</role>
             </roles>
         </developer>
-        <developer>
-            <id>Sydcul</id>
-            <name>Lukas van den IJssel</name>
-            <email>sydcul@sydcul.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
     </developers>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/Sydcul/Game-of-Life/issues</url>
+        <url>https://github.com/TheNLGamerZone/Game-of-Life/issues</url>
     </issueManagement>
 
     <!-- Packaging -->

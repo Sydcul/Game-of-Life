@@ -12,7 +12,6 @@ public class CellCanvas extends Canvas {
     // Used double-buffer so we don't draw directly on JPanel thus preventing flickering
     private Image drawImage;
     private Graphics drawGraphics;
-    private final JPanel jPanel;
 
     private final short width;
     private final short height;
@@ -20,7 +19,6 @@ public class CellCanvas extends Canvas {
     public CellCanvas(short width, short height, JPanel jPanel) {
         this.width = width;
         this.height = height;
-        this.jPanel = jPanel;
     }
 
     /**
@@ -29,7 +27,7 @@ public class CellCanvas extends Canvas {
     private void redraw() {
         // Create the background of the canvas
         drawGraphics.setColor(Color.DARK_GRAY);
-        drawGraphics.fillRect(0 ,0, jPanel.getWidth(), jPanel.getHeight());
+        drawGraphics.fillRect(0 ,0,getWidth(), getHeight());
     }
 
     /**
@@ -38,8 +36,8 @@ public class CellCanvas extends Canvas {
      */
     private void mouseDrag(MouseEvent event) {
         // Calculate coordinate
-        int x = width * event.getX() / jPanel.getWidth();
-        int y = height * event.getY() / jPanel.getHeight();
+        int x = width * event.getX() / getWidth();
+        int y = height * event.getY() / getHeight();
 
         // Check whether the user is actually clicking with left
         if(SwingUtilities.isLeftMouseButton(event)){
