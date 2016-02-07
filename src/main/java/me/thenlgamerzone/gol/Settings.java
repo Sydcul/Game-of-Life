@@ -1,16 +1,20 @@
 package me.thenlgamerzone.gol;
 
+import me.thenlgamerzone.gol.game.GamePhase;
+
 /*
- * Copyright (c) 2016 Tim & Lukas
+ * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
 public enum Settings {
-    WIDTH(0), HEIGTH(0), SPEED(0);
+    WIDTH(0, null), HEIGTH(0, null), SPEED(0, null), GAME_PHASE(0, GamePhase.SELECTING);
 
     private int setting;
+    private GamePhase gamePhase;
 
-    private Settings(int setting) {
+    private Settings(int setting, GamePhase gamePhase) {
         this.setting = setting;
+        this.gamePhase = gamePhase;
     }
 
     /**
@@ -22,10 +26,26 @@ public enum Settings {
     }
 
     /**
+     * Returns the current game phase
+     * @return Current game phase
+     */
+    public GamePhase getGamePhase() {
+        return gamePhase;
+    }
+
+    /**
      * Edit a setting's value
      * @param newSetting The new value
      */
     public void setSetting(int newSetting) {
         setting = newSetting;
+    }
+
+    /**
+     * Edit the current game phase
+     * @param gamePhase The new game phase
+     */
+    public void setSetting(GamePhase gamePhase) {
+        this.gamePhase = gamePhase;
     }
 }

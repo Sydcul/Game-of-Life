@@ -1,7 +1,7 @@
 package me.thenlgamerzone.gol.cell;
 
 /*
- * Copyright (c) 2016 Tim & Lukas
+ * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
 public class Cell {

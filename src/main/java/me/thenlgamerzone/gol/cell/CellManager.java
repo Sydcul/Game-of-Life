@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
- * Copyright (c) 2016 Tim & Lukas
+ * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
 public class CellManager {
     private Cell[][] currentCells;
     private Set<Cell> allCells;
 
-    public CellManager(int xCoord, int yCoord) {
-        currentCells = new Cell[xCoord][yCoord];
+    public CellManager() {
+        currentCells = new Cell[Settings.WIDTH.getSetting()][Settings.HEIGTH.getSetting()];
         allCells = new HashSet<Cell>();
 
         // Populate arrays

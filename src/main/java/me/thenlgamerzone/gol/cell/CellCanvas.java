@@ -1,5 +1,8 @@
 package me.thenlgamerzone.gol.cell;
 
+import me.thenlgamerzone.gol.GameOfLife;
+import me.thenlgamerzone.gol.Settings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
@@ -7,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /*
- * Copyright (c) 2016 Tim & Lukas
+ * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
 public class CellCanvas extends JPanel {
@@ -19,6 +22,7 @@ public class CellCanvas extends JPanel {
     private final int height;
 
     public CellCanvas(int width, int height) {
+        // Set width and height
         this.width = width;
         this.height = height;
     }
@@ -57,7 +61,19 @@ public class CellCanvas extends JPanel {
             drawGraphics.drawLine(xCoord, 0, xCoord, getHeight());
         }
 
-        // TODO: Color alive cells
+        // Loop through all the cells that will be alive next round
+        for (Cell cell : GameOfLife.getCellManager().getNextAliveCells()) {
+            // Get cell's location on JPanel
+            int x = cell.getX() * getWidth() / width;
+            int y = cell.getY() * getHeight() / height;
+
+            // Set cell's color
+            drawGraphics.setColor(Color.RED);
+
+            // Paint the cell
+            drawGraphics.fillRect(x, y, getWidth() / width, getHeight() / height);
+        }
+
         // Update the main canvas
         g.drawImage(drawImage, 0, 0, this);
     }
@@ -68,13 +84,20 @@ public class CellCanvas extends JPanel {
      * @param event The event
      */
     public void mouseDrag(MouseEvent event) {
+        // Check if the current game phase allows the user to make cells living
+        if (!Settings.GAME_PHASE.getGamePhase().canSelect())
+            return;
+
         // Calculate coordinate
         int x = width * event.getX() / getWidth();
         int y = height * event.getY() / getHeight();
 
         // Check whether the user is actually clicking with left
         if (SwingUtilities.isLeftMouseButton(event)) {
-            // TODO: activate cell
+            // Change state
+            GameOfLife.getCellManager().getCellAt(x, y).setNextCellState(Cell.CELL_STATE.ALIVE);
+
+            // Update JPanel
             paint(getGraphics());
         }
     }

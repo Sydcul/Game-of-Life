@@ -1,63 +1,55 @@
 package me.thenlgamerzone.gol;
 
-import me.thenlgamerzone.gol.cell.CellCanvas;
-
-import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import me.thenlgamerzone.gol.cell.CellManager;
+import me.thenlgamerzone.gol.game.GamePhase;
+import me.thenlgamerzone.gol.game.Timer;
 
 /*
- * Copyright (c) 2016 Tim & Lukas
+ * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
 public class GameOfLife {
-    private JFrame mainFrame;
-    private CellCanvas cellCanvas;
+    private static CellManager cellManager;
+    private Thread cellTimer;
 
     public static void main(String[] args) {
         // Temporary settings
         Settings.WIDTH.setSetting(50);
         Settings.HEIGTH.setSetting(50);
+        Settings.SPEED.setSetting(100);
+        Settings.GAME_PHASE.setSetting(GamePhase.STARTING);
 
+        // Initialize cellManager
+        cellManager = new CellManager();
+
+        // Initialize frame on EDT
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GameOfLife();
+                new GOLFrame();
             }
         });
+
+        // Initialize timer in non-static method
+        new GameOfLife();
     }
 
     /**
-     * Initializes our frame and shows it
+     * Static -> Non-Static converter
      */
     public GameOfLife() {
-        // Create JFrame and JPanel
-        mainFrame = new JFrame();
-        cellCanvas = new CellCanvas(Settings.WIDTH.getSetting(), Settings.HEIGTH.getSetting());
+        // Initialize timer
+        cellTimer = new Thread(new Timer(Settings.SPEED, this));
+    }
 
-        // Adding listeners for JPanel
-        cellCanvas.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent event) {
-                cellCanvas.mouseDrag(event);
-            }
-        });
+    /**
+     * Returns the cellmanager
+     * @return CellManager
+     */
+    public static CellManager getCellManager() {
+        return cellManager;
+    }
 
-        cellCanvas.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent event) {
-                cellCanvas.resizeEvent(event);
-            }
-        });
-
-        // Configuring JFrame
-        mainFrame.getContentPane().add(cellCanvas);
-        mainFrame.setSize(500, 500);
-        mainFrame.setTitle("Game of Life");
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setLocationRelativeTo(null);
-
-        // Show the JFrame
-        mainFrame.setVisible(true);
+    public Thread getCellTimer() {
+        return cellTimer;
     }
 }
