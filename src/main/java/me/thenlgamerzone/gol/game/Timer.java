@@ -10,6 +10,7 @@ import me.thenlgamerzone.gol.Settings;
 public class Timer implements Runnable {
     private final Settings speedSetting;
     private final GameOfLife gameOfLife;
+    private boolean run = true;
 
     private Thread timerThread;
 
@@ -26,13 +27,28 @@ public class Timer implements Runnable {
 
     @Override
     public void run() {
-        while (Settings.GAME_PHASE.getGamePhase() == GamePhase.PLAYING) {
-
+        while (run) {
+            // Sleep the thread/timer
             try {
                 timerThread.sleep(speedSetting.getSetting());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            // Check if the timer has to do anything
+            if (Settings.GAME_PHASE.getGamePhase() != GamePhase.PLAYING)
+                continue;
+
+            // Update all cells
+            GameOfLife.getCellManager().updateCells();
+
+            // Paint new canvas
+            GameOfLife.getGOLFFrame().getCellCanvas().paint(GameOfLife.getGOLFFrame().getCellCanvas().getGraphics());
+
+            // Update all cells
+            GameOfLife.getCellManager().nextRound();
         }
     }
+
+
 }

@@ -59,50 +59,64 @@ public class CellManager {
      */
     public int getNeighbours(Cell cell) {
         int aliveNeighbours = 0;
+        System.out.println(cell.getX() + cell.getY());
 
         // Loop though all the surrounding cells
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+            //System.out.println("check1");
+
             // Check if the current X is out of bounds
             if (x < 0 || x >= Settings.WIDTH.getSetting())
                 continue;
+            //System.out.println("check2");
 
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+                //System.out.println("check3");
+
                 // Check if the current Y is out of bounds or if the current cell is the given cell
                 if (y < 0 || y >= Settings.HEIGTH.getSetting() || (x == cell.getX() && y == cell.getY()))
                     continue;
+                //System.out.println("check4");
 
                 // Increase aliveNeighbours by one if the neighbour is alive
                 if (getCellAt(x, y).isAlive())
                     aliveNeighbours++;
             }
         }
+
+        //System.out.println(aliveNeighbours);
         return aliveNeighbours;
     }
 
     /**
-     * Checks the next state and gives it that state
-     * @param cell The cell to be checked
+     * Calculates the state for all cells
      */
-    public void checkCell(Cell cell) {
-        // Check if the cell is alive
-        if(cell.isAlive()) {
-            // Check for overpopulation
-            if(getNeighbours(cell) >= 4)
-                cell.setNextCellState(Cell.CELL_STATE.DEAD);
+    public void updateCells() {
+        for (Cell cell : allCells) {
+            if (!cell.isAlive()) cell.setNextCellState(Cell.CELL_STATE.ALIVE);
+            else cell.setNextCellState(Cell.CELL_STATE.DEAD);
+            /*int neighbours = getNeighbours(cell);
 
-            // Check for starvation
-            else if (getNeighbours(cell) < 2)
-                cell.setNextCellState(Cell.CELL_STATE.DEAD);
+            // Check if the cell is alive
+            if(cell.isAlive()) {
+                // Check for overpopulation
+                if(neighbours >= 4)
+                    cell.setNextCellState(Cell.CELL_STATE.DEAD);
 
-            // Cell will survive this round
-            cell.setNextCellState(Cell.CELL_STATE.ALIVE);
-        } else {
-            // Check for growth
-            if(getNeighbours(cell) == 3)
+                // Check for starvation
+                else if (neighbours < 2)
+                    cell.setNextCellState(Cell.CELL_STATE.DEAD);
+
+                // Cell will survive this round
                 cell.setNextCellState(Cell.CELL_STATE.ALIVE);
+            } else {
+                // Check for growth
+                if(neighbours == 3)
+                    cell.setNextCellState(Cell.CELL_STATE.ALIVE);
 
-            // Cell won't grow
-            cell.setNextCellState(Cell.CELL_STATE.DEAD);
+                // Cell won't grow
+                cell.setNextCellState(Cell.CELL_STATE.DEAD);
+            }*/
         }
     }
 
@@ -110,7 +124,7 @@ public class CellManager {
      * Updates the state of all cells
      */
     public void nextRound() {
-        for(Cell cell : allCells) {
+        for (Cell cell : allCells) {
             // Change states
             cell.setState(cell.getNextCellState());
             cell.setNextCellState(null);

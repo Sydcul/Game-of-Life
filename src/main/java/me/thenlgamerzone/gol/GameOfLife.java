@@ -10,13 +10,14 @@ import me.thenlgamerzone.gol.game.Timer;
  */
 public class GameOfLife {
     private static CellManager cellManager;
+    private static GOLFrame golFrame;
     private Thread cellTimer;
 
     public static void main(String[] args) {
         // Temporary settings
-        Settings.WIDTH.setSetting(50);
-        Settings.HEIGTH.setSetting(50);
-        Settings.SPEED.setSetting(100);
+        Settings.WIDTH.setSetting(80);
+        Settings.HEIGTH.setSetting(80);
+        Settings.SPEED.setSetting(1000);
         Settings.GAME_PHASE.setSetting(GamePhase.STARTING);
 
         // Initialize cellManager
@@ -25,7 +26,7 @@ public class GameOfLife {
         // Initialize frame on EDT
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GOLFrame();
+                golFrame = new GOLFrame();
             }
         });
 
@@ -39,6 +40,9 @@ public class GameOfLife {
     public GameOfLife() {
         // Initialize timer
         cellTimer = new Thread(new Timer(Settings.SPEED, this));
+
+        // Start the timer
+        cellTimer.run();
     }
 
     /**
@@ -49,7 +53,15 @@ public class GameOfLife {
         return cellManager;
     }
 
+    /**
+     * Returns the timer
+     * @return Timer
+     */
     public Thread getCellTimer() {
         return cellTimer;
+    }
+
+    public static GOLFrame getGOLFFrame() {
+        return golFrame;
     }
 }

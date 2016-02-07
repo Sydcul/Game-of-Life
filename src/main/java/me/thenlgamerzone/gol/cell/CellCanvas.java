@@ -94,9 +94,9 @@ public class CellCanvas extends JPanel {
 
         // Check whether the user is actually clicking with left
         if (SwingUtilities.isLeftMouseButton(event)) {
-            // Change state
-            GameOfLife.getCellManager().getCellAt(x, y).setNextCellState(Cell.CELL_STATE.ALIVE);
-
+            // Toggle state
+            GameOfLife.getCellManager().getCellAt(x, y).setNextCellState(GameOfLife.getCellManager().getCellAt(x, y).getNextCellState() == Cell.CELL_STATE.DEAD ? Cell.CELL_STATE.ALIVE : Cell.CELL_STATE.DEAD);
+            GameOfLife.getCellManager().getCellAt(x, y).setState(GameOfLife.getCellManager().getCellAt(x, y).getNextCellState() == Cell.CELL_STATE.DEAD ? Cell.CELL_STATE.ALIVE : Cell.CELL_STATE.DEAD);
             // Update JPanel
             paint(getGraphics());
         }
