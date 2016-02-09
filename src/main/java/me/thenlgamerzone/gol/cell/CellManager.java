@@ -59,32 +59,23 @@ public class CellManager {
      */
     public int getNeighbours(Cell cell) {
         int aliveNeighbours = 0;
-        System.out.println(cell.getX() + cell.getY());
 
         // Loop though all the surrounding cells
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            //System.out.println("check1");
-
             // Check if the current X is out of bounds
             if (x < 0 || x >= Settings.WIDTH.getSetting())
                 continue;
-            //System.out.println("check2");
 
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
-                //System.out.println("check3");
-
                 // Check if the current Y is out of bounds or if the current cell is the given cell
                 if (y < 0 || y >= Settings.HEIGTH.getSetting() || (x == cell.getX() && y == cell.getY()))
                     continue;
-                //System.out.println("check4");
 
                 // Increase aliveNeighbours by one if the neighbour is alive
                 if (getCellAt(x, y).isAlive())
                     aliveNeighbours++;
             }
         }
-
-        //System.out.println(aliveNeighbours);
         return aliveNeighbours;
     }
 
@@ -93,30 +84,34 @@ public class CellManager {
      */
     public void updateCells() {
         for (Cell cell : allCells) {
-            if (!cell.isAlive()) cell.setNextCellState(Cell.CELL_STATE.ALIVE);
-            else cell.setNextCellState(Cell.CELL_STATE.DEAD);
-            /*int neighbours = getNeighbours(cell);
+            int neighbours = getNeighbours(cell);
 
             // Check if the cell is alive
             if(cell.isAlive()) {
                 // Check for overpopulation
-                if(neighbours >= 4)
+                if(neighbours >= 4) {
                     cell.setNextCellState(Cell.CELL_STATE.DEAD);
+                    continue;
+                }
 
                 // Check for starvation
-                else if (neighbours < 2)
+                else if (neighbours < 2) {
                     cell.setNextCellState(Cell.CELL_STATE.DEAD);
+                    continue;
+                }
 
                 // Cell will survive this round
                 cell.setNextCellState(Cell.CELL_STATE.ALIVE);
             } else {
                 // Check for growth
-                if(neighbours == 3)
+                if(neighbours == 3) {
                     cell.setNextCellState(Cell.CELL_STATE.ALIVE);
+                    continue;
+                }
 
                 // Cell won't grow
                 cell.setNextCellState(Cell.CELL_STATE.DEAD);
-            }*/
+            }
         }
     }
 

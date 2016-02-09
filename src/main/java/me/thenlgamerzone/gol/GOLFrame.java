@@ -15,7 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GOLFrame {
-    private CellCanvas cellCanvas;
+    private final CellCanvas cellCanvas;
     private ControlPanel controlPanel;
 
     public GOLFrame() {
@@ -52,7 +52,19 @@ public class GOLFrame {
         jFrame.setVisible(true);
     }
 
+    /**
+     * Returns the cell canvas all the cells are drawn on
+     * @return The cell canvas
+     */
     public CellCanvas getCellCanvas() {
         return cellCanvas;
+    }
+
+    /**
+     * Returns the control panel
+     * @return The control panel
+     */
+    public ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

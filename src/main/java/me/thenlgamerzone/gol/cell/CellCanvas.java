@@ -29,28 +29,38 @@ public class CellCanvas extends JPanel {
 
     /**
      * Paint the canvas using double buffer
-     * @param g 'Real' canvas, used for double buffer
+     * @param graphics 'Real' canvas, used for double buffer
      */
-    public void paint(Graphics g) {
-        super.paintComponent(g);
-
+    public void paint(Graphics graphics) {
         // Init drawImage and drawGraphics
         if(drawImage == null)
             drawImage = (BufferedImage) createImage(getWidth(), getHeight());
         drawGraphics = drawImage.getGraphics();
 
+        paintComponent(drawGraphics);
+
+        // Update the main canvas
+        graphics.drawImage(drawImage, 0, 0, this);
+    }
+
+    /**
+     * Paint the given graphics
+     * @param graphics The graphics to be painted
+     */
+    public void paintComponent(Graphics graphics) {
         // Create the background of the canvas
-        drawGraphics.setColor(Color.DARK_GRAY);
-        drawGraphics.fillRect(0, 0, getWidth(), getHeight());
+        graphics.clearRect(0, 0, getHeight(), getWidth());
+        graphics.setColor(Color.DARK_GRAY);
+        graphics.fillRect(0, 0, getWidth(), getHeight());
 
         // Loop through height and width to create lines which are equally separated
         // Horizontal lines
-        drawGraphics.setColor(Color.BLACK);
+        graphics.setColor(Color.BLACK);
         for(int horLines = 0; horLines < height; horLines++) {
             int yCoord = horLines * getHeight() / height;
 
             // Draw the line
-            drawGraphics.drawLine(0, yCoord, getWidth(), yCoord);
+            graphics.drawLine(0, yCoord, getWidth(), yCoord);
         }
 
         // Vertical lines
@@ -58,7 +68,7 @@ public class CellCanvas extends JPanel {
             int xCoord = vertLines * getWidth() / width;
 
             // Draw the line
-            drawGraphics.drawLine(xCoord, 0, xCoord, getHeight());
+            graphics.drawLine(xCoord, 0, xCoord, getHeight());
         }
 
         // Loop through all the cells that will be alive next round
@@ -68,14 +78,11 @@ public class CellCanvas extends JPanel {
             int y = cell.getY() * getHeight() / height;
 
             // Set cell's color
-            drawGraphics.setColor(Color.RED);
+            graphics.setColor(Color.RED);
 
             // Paint the cell
-            drawGraphics.fillRect(x, y, getWidth() / width, getHeight() / height);
+            graphics.fillRect(x, y, getWidth() / width, getHeight() / height);
         }
-
-        // Update the main canvas
-        g.drawImage(drawImage, 0, 0, this);
     }
 
     /**
@@ -96,7 +103,7 @@ public class CellCanvas extends JPanel {
         if (SwingUtilities.isLeftMouseButton(event)) {
             // Toggle state
             GameOfLife.getCellManager().getCellAt(x, y).setNextCellState(GameOfLife.getCellManager().getCellAt(x, y).getNextCellState() == Cell.CELL_STATE.DEAD ? Cell.CELL_STATE.ALIVE : Cell.CELL_STATE.DEAD);
-            GameOfLife.getCellManager().getCellAt(x, y).setState(GameOfLife.getCellManager().getCellAt(x, y).getNextCellState() == Cell.CELL_STATE.DEAD ? Cell.CELL_STATE.ALIVE : Cell.CELL_STATE.DEAD);
+            GameOfLife.getCellManager().getCellAt(x, y).setState(!GameOfLife.getCellManager().getCellAt(x, y).isAlive() ? Cell.CELL_STATE.ALIVE : Cell.CELL_STATE.DEAD);
             // Update JPanel
             paint(getGraphics());
         }

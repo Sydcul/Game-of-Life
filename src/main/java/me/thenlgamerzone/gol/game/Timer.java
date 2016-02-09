@@ -3,52 +3,31 @@ package me.thenlgamerzone.gol.game;
 import me.thenlgamerzone.gol.GameOfLife;
 import me.thenlgamerzone.gol.Settings;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /*
  * Copyright (c) 2016 Tim
  * See LICENSE for license
  */
-public class Timer implements Runnable {
-    private final Settings speedSetting;
-    private final GameOfLife gameOfLife;
-    private boolean run = true;
+public class Timer implements ActionListener {
 
-    private Thread timerThread;
-
-    public Timer(Settings speedSetting, GameOfLife gameOfLife) {
-        // Set the speed setting
-        this.speedSetting = speedSetting;
-
-        // Set GameOfLife instance
-        this.gameOfLife = gameOfLife;
-
-        // Set instance of timer used
-        this.timerThread = gameOfLife.getCellTimer();
-    }
-
+    /**
+     * Runs every X (defined in Settings > Speed) milliseconds and triggers all the necessary methods for the game to progress
+     * @param e ActionEvent
+     */
     @Override
-    public void run() {
-        while (run) {
-            // Sleep the thread/timer
-            try {
-                timerThread.sleep(speedSetting.getSetting());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public void actionPerformed(ActionEvent e) {
+        if (Settings.GAME_PHASE.getGamePhase() != GamePhase.PLAYING)
+            return;
 
-            // Check if the timer has to do anything
-            if (Settings.GAME_PHASE.getGamePhase() != GamePhase.PLAYING)
-                continue;
+        // Update all cells
+        GameOfLife.getCellManager().updateCells();
 
-            // Update all cells
-            GameOfLife.getCellManager().updateCells();
+        // Paint new canvas
+        GameOfLife.getGOLFFrame().getCellCanvas().paint(GameOfLife.getGOLFFrame().getCellCanvas().getGraphics());
 
-            // Paint new canvas
-            GameOfLife.getGOLFFrame().getCellCanvas().paint(GameOfLife.getGOLFFrame().getCellCanvas().getGraphics());
-
-            // Update all cells
-            GameOfLife.getCellManager().nextRound();
-        }
+        // Update all cells
+        GameOfLife.getCellManager().nextRound();
     }
-
-
 }
