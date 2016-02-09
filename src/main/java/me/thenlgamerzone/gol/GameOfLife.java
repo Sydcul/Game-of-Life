@@ -73,6 +73,10 @@ public class GameOfLife {
         return cellTimer;
     }
 
+    /**
+     * Returns used instance of main game frame
+     * @return Main game frame or GOLFrame
+     */
     public static GOLFrame getGOLFFrame() {
         return golFrame;
     }

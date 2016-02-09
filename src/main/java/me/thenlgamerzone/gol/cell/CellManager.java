@@ -20,6 +20,7 @@ public class CellManager {
         // Populate arrays
         for (int column = 0; column < Settings.WIDTH.getSetting(); column++)
             for (int row = 0; row < Settings.HEIGTH.getSetting(); row++) {
+                // Initiate new cell
                 Cell cell = new Cell(column, row, Cell.CELL_STATE.DEAD);
 
                 // Add cell to arrays
@@ -76,6 +77,7 @@ public class CellManager {
                     aliveNeighbours++;
             }
         }
+
         return aliveNeighbours;
     }
 
@@ -83,7 +85,9 @@ public class CellManager {
      * Calculates the state for all cells
      */
     public void updateCells() {
+        // Loop through all the cells and give them new states for next round based on their neighbours
         for (Cell cell : allCells) {
+            // Get the number of neighbours for the current cell
             int neighbours = getNeighbours(cell);
 
             // Check if the cell is alive
@@ -119,6 +123,7 @@ public class CellManager {
      * Updates the state of all cells
      */
     public void nextRound() {
+        // Loop through all the cells and trigger the necessary methods to progress to the next round
         for (Cell cell : allCells) {
             // Change states
             cell.setState(cell.getNextCellState());
@@ -141,6 +146,7 @@ public class CellManager {
     public Set<Cell> getNextAliveCells() {
         Set<Cell> nextCells = new HashSet<Cell>();
 
+        // Loop through all cells and check which will be alive next round
         for (Cell cell : allCells)
             if (cell.getNextCellState() == Cell.CELL_STATE.ALIVE)
                 nextCells.add(cell);

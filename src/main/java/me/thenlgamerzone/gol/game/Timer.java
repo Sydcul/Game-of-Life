@@ -18,6 +18,7 @@ public class Timer implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Check if the current game phase is PLAYING, return otherwise
         if (Settings.GAME_PHASE.getGamePhase() != GamePhase.PLAYING)
             return;
 
