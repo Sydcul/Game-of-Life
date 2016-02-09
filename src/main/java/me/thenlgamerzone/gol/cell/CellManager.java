@@ -1,5 +1,6 @@
 package me.thenlgamerzone.gol.cell;
 
+import me.thenlgamerzone.gol.GameOfLife;
 import me.thenlgamerzone.gol.Settings;
 
 import java.util.HashSet;
@@ -152,5 +153,20 @@ public class CellManager {
                 nextCells.add(cell);
 
         return nextCells;
+    }
+
+    /**
+     * Kills every living cell
+     */
+    public void killAllCells() {
+        // Loop through all cells and kill them
+        for (Cell cell : getAllCells()) {
+            // Change the cell's states
+            cell.setState(Cell.CELL_STATE.DEAD);
+            cell.setNextCellState(Cell.CELL_STATE.DEAD);
+        }
+
+        // Manually repaint the CellCanvas
+        GameOfLife.getGOLFFrame().getCellCanvas().paint(GameOfLife.getGOLFFrame().getCellCanvas().getGraphics());
     }
 }

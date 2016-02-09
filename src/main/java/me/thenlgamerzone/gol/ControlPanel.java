@@ -49,6 +49,9 @@ public class ControlPanel extends JPanel {
                 restartClick(event);
             }
         });
+
+        // Toggle state of restartButton
+        toggleButton(resetButton);
     }
 
     /**
@@ -61,12 +64,36 @@ public class ControlPanel extends JPanel {
 
         // Change game phase
         Settings.GAME_PHASE.setSetting(GamePhase.PLAYING);
+
+        // Toggle the buttons
+        toggleButton(startButton);
+        toggleButton(resetButton);
     }
 
     /**
      * Will get fired when the user clicks the 'Restart game' button
      */
     private void restartClick(ActionEvent event) {
-        // TODO: Add stuff here
+        // Check to see if the game is already running or stable
+        if (Settings.GAME_PHASE.getGamePhase() == GamePhase.PLAYING || Settings.GAME_PHASE.getGamePhase() == GamePhase.STABLE) {
+            // Kill all the cells
+            GameOfLife.getCellManager().killAllCells();
+
+            // Change the game phase to starting
+            Settings.GAME_PHASE.setSetting(GamePhase.STARTING);
+
+            // Toggle the buttons
+            toggleButton(startButton);
+            toggleButton(resetButton);
+        }
+    }
+
+    /**
+     * Toggles a button
+     * @param button The button to be toggled
+     */
+    public void toggleButton(JButton button) {
+        // Change button settings
+        button.setEnabled(!button.isEnabled());
     }
 }

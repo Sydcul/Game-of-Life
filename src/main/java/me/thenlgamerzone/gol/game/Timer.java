@@ -14,10 +14,10 @@ public class Timer implements ActionListener {
 
     /**
      * Runs every X (defined in Settings > Speed) milliseconds and triggers all the necessary methods for the game to progress
-     * @param e ActionEvent
+     * @param event ActionEvent
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent event) {
         // Check if the current game phase is PLAYING, return otherwise
         if (Settings.GAME_PHASE.getGamePhase() != GamePhase.PLAYING)
             return;
