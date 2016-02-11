@@ -1,6 +1,7 @@
 package me.thenlgamerzone.gol;
 
 import me.thenlgamerzone.gol.cell.CellManager;
+import me.thenlgamerzone.gol.frame.SettingsFrame;
 import me.thenlgamerzone.gol.game.GamePhase;
 import me.thenlgamerzone.gol.game.Timer;
 
@@ -11,30 +12,21 @@ import me.thenlgamerzone.gol.game.Timer;
 public class GameOfLife {
     private static CellManager cellManager;
     private static GOLFrame golFrame;
+    private static SettingsFrame settingsFrame;
 
     private javax.swing.Timer cellTimer;
     private me.thenlgamerzone.gol.game.Timer actionListener;
 
     public static void main(String[] args) {
         // Temporary settings
-        Settings.WIDTH.setSetting(100);
-        Settings.HEIGTH.setSetting(100);
-        Settings.SPEED.setSetting(75);
-        Settings.GAME_PHASE.setSetting(GamePhase.STARTING);
-
-        // Initialize cellManager
-        cellManager = new CellManager();
-
+        Settings.GAME_PHASE.setSetting(GamePhase.SELECTING);
 
         // Initialize frame on EDT
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                golFrame = new GOLFrame();
+                settingsFrame = new SettingsFrame();
             }
         });
-
-        // Initialize timer in non-static method
-        new GameOfLife();
     }
 
     /**
@@ -47,6 +39,26 @@ public class GameOfLife {
 
         // Start the timer
         cellTimer.start();
+    }
+
+    /**
+     * Initialize GOLFrame
+     */
+    public static void initGOLFFrame() {
+        // Initialize frame on EDT
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                golFrame = new GOLFrame();
+            }
+        });
+    }
+
+    /**
+     * Initialize cell manager
+     */
+    public static void initCellManager() {
+        // Initialize cellManager
+        cellManager = new CellManager();
     }
 
     /**
@@ -79,5 +91,13 @@ public class GameOfLife {
      */
     public static GOLFrame getGOLFFrame() {
         return golFrame;
+    }
+
+    /**
+     * Returns used instance of settings frame
+     * @return Setting frame
+     */
+    public static SettingsFrame getSettingsFrame() {
+        return settingsFrame;
     }
 }
